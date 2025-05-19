@@ -9,15 +9,18 @@ import numpy as np
 from dataclasses import dataclass
 from sklearn.model_selection import train_test_split
 
+from src.components.data_transformation import dataTransformation
+from src.components.data_transformation import dataTransformationConfig
+
 @dataclass
-class DataIngestionCongig:
+class DataIngestionConfig:
     test_data_path: str = os.path.join('artifacts',"test.csv")
     train_data_path: str = os.path.join('artifacts',"train.csv")
     raw_data_path: str = os.path.join('artifacts',"data.csv")
 
 class DataIngestion:
     def __init__(self):
-        self.ingestionConfig = DataIngestionCongig()
+        self.ingestionConfig = DataIngestionConfig()
 
     def initiatedataIngestion(self):
         try:
@@ -45,6 +48,10 @@ class DataIngestion:
             raise CustomException(e,sys)
 
 
-if __name__ == "__main__":
-    obj = DataIngestion()
-    obj.initiatedataIngestion()
+if __name__=="__main__":
+    obj=DataIngestion()
+    train_data,test_data=obj.initiatedataIngestion()
+
+    data_transformation=dataTransformation()
+    data_transformation.initaite_data_transformation(train_data,test_data)
+
